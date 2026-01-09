@@ -1,31 +1,24 @@
 import yfinance as yf
+import pandas as pd
 from pathlib import Path
 
+TICKERS = ["AAPL", "AMZN", "CRWD", "GOOGL", "JPM", "KO", "MSFT", "NVDA", "VOO", "WMT", "XOM"]
 
-# Configuration
-TICKERS = [
-    "CRWD", "VOO", "GOOGL",
-    "AAPL", "MSFT", "AMZN", "NVDA",
-    "JPM", "KO", "XOM", "WMT"
-]
+START_DATE = "2023-01-01" # 3 years of data to exclude COVID
 
-START_DATE = "2023-01-01"
-END_DATE = None  # None = today
+# Assumes working directory is algo-trading/
+RAW_DATA_DIR = Path("data/raw")
 
-# From working dir algo-trading/
-RAW_DATA_DIR = Path("../data/raw")
-
-# Download loop
 for ticker in TICKERS:
     print(f"Downloading {ticker}...")
     df = yf.download(
         ticker,
         start=START_DATE,
-        end=END_DATE,
-        auto_adjust=True,
-        progress=False,
+        multi_level_index=False, # Solves issue of funky index which is bad for TS analysis
+        progress=False
     )
 
-    df.to_csv(RAW_DATA_DIR / f"{ticker}.csv")
+    outpath = RAW_DATA_DIR / f"{ticker}.csv"
+    df.to_csv(outpath, index=True, index_label="Date")
 
-print("Download complete.")
+print(f"All {len(TICKERS)} downloads complete.")
