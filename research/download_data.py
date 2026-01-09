@@ -12,9 +12,8 @@ TICKERS = [
 START_DATE = "2023-01-01"
 END_DATE = None  # None = today
 
-# Current dir = "algo-trading/research"
+# From working dir algo-trading/
 RAW_DATA_DIR = Path("../data/raw")
-# RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 # Download loop
 for ticker in TICKERS:
