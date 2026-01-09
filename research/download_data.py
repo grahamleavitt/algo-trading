@@ -15,6 +15,7 @@ for ticker in TICKERS:
         ticker,
         start=START_DATE,
         multi_level_index=False, # Solves issue of funky index which is bad for TS analysis
+        auto_adjust=False,
         progress=False
     )
 
